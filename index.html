@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dumb | Sitio oficial</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <meta property="og:title" content="dumb | Sitio oficial">
+    <meta property="og:image" content="images/hero.jpg">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400..700;1,400..700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Typekit/Adobe Fonts: pega aquí el enlace de tu proyecto con "ITC Avant Garde Gothic Pro" (ej.: <link rel="stylesheet" href="https://use.typekit.net/XXXXXXX.css">) -->
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #F6F6F6;
+            --panel: #F6F6F6;
+            --text: #424242;
+            --muted: #424242;
+            --line: rgba(66,66,66,0.25);
+            --accent: #0384FF;
+            --accent-dark: #424242;
+            --sky: #0384FF;
+            --sky-soft: #F6F6F6;
+            --font-heading: 'ITC Avant Garde Gothic Pro', 'ITC Avant Garde Gothic', 'Avant Garde', 'Jost', 'Noto Sans JP', 'Noto Sans KR', 'Century Gothic', sans-serif;
+            --font-body: 'ITC Avant Garde Gothic Pro', 'ITC Avant Garde Gothic', 'Avant Garde', 'Jost', 'Noto Sans JP', 'Noto Sans KR', 'Century Gothic', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.7; }
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; }
+        p { color: var(--muted); }
+        .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+        .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        main { min-height: 55vh; }
+        .eyebrow { font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 14px; }
+        .block-title { font-size: clamp(1.8rem, 4vw, 3rem); text-transform: uppercase; letter-spacing: 2px; line-height: 1.15; margin-bottom: 26px; color: var(--text); }
+        .sec-head { padding: 80px 0 30px; }
+        .sec-head .block-title { margin-bottom: 0; }
+
+        /* Barra de anuncio + barra superior */
+        .announce { background: var(--sky); color: #F6F6F6; text-align: center; font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; }
+        .announce a { display: block; padding: 9px 16px; }
+        .announce a:hover { background: var(--text); color: #F6F6F6; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 8px 24px; border-bottom: 1px solid var(--line); }
+        .social-links { display: flex; gap: 4px; flex-wrap: wrap; }
+        .social-icon { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; transition: all .25s; }
+        .social-icon:hover { background: var(--accent); color: #F6F6F6; }
+        .lang-switch { display: flex; gap: 4px; }
+        .lang-btn { background: none; color: var(--muted); border: 1px solid transparent; padding: 5px 10px; border-radius: 999px; font-family: inherit; font-size: 0.75rem; cursor: pointer; transition: all .2s; }
+        .lang-btn:hover { color: var(--text); border-color: var(--line); }
+        .lang-btn.active { color: var(--bg); background: var(--text); }
+
+        /* Cabecera centrada + navegación */
+        .site-header { text-align: center; padding: 26px 24px 14px; }
+        .brand { display: inline-block; line-height: 0; }
+        .brand img { height: 96px; width: auto; }
+        .topnav { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--line); border-top: 1px solid var(--line); display: flex; justify-content: center; }
+        .nav-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 34px; padding: 14px 24px; font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
+        .nav-links a { padding-bottom: 2px; border-bottom: 2px solid transparent; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .nav-toggle { display: none; background: none; border: 0; color: var(--text); font: inherit; font-weight: 700; letter-spacing: 2px; padding: 14px 24px; cursor: pointer; }
+        @media (max-width: 820px) {
+            .nav-toggle { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; padding: 0; background: var(--bg); border-bottom: 1px solid var(--line); }
+            .nav-links.open { display: flex; }
+            .nav-links a { padding: 16px 24px; border-bottom: 0; border-top: 1px solid var(--line); }
+        }
+
+        /* Hero (imagen grande) */
+        .hero { min-height: 74vh; display: flex; align-items: flex-end; justify-content: center; padding: 40px 24px; background: linear-gradient(to top, rgba(66,66,66,0.6) 0%, rgba(66,66,66,0) 55%), url('images/hero.jpg') center 35% / cover no-repeat; }
+        .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+        .hero .btn { border-color: #F6F6F6; color: #F6F6F6; }
+        .hero .btn:hover { background: #F6F6F6; color: var(--text); }
+        .hero .btn-solid { background: var(--accent); border-color: var(--accent); }
+        .hero .btn-solid:hover { background: #F6F6F6; border-color: #F6F6F6; color: var(--text); }
+
+        /* Botones */
+        .btn { align-self: flex-start; display: inline-flex; gap: 10px; align-items: center; border: 2px solid var(--text); padding: 13px 26px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.82rem; font-weight: 700; transition: all .25s; }
+        .btn:hover { background: var(--text); color: var(--bg); }
+        .btn-solid { background: var(--accent); border-color: var(--accent); color: #F6F6F6; }
+        .btn-solid:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #F6F6F6; }
+
+        /* Lanzamiento */
+        .split { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .split-media { background: var(--panel); }
+        .split-media img { width: 100%; height: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+        .split-text { padding: 64px clamp(24px, 6vw, 90px); display: flex; flex-direction: column; justify-content: center; background: var(--sky-soft); }
+        .split-text h2 { font-size: clamp(2.4rem, 6vw, 4.5rem); text-transform: uppercase; line-height: 1; margin-bottom: 10px; }
+        .split-text .meta { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: 700; margin-bottom: 22px; }
+        .split-text p { margin-bottom: 26px; font-size: 1.02rem; }
+        .split-text p.eyebrow { margin-bottom: 14px; }
+        @media (max-width: 820px) { .split { grid-template-columns: 1fr; } }
+
+        /* Compra digital */
+        .buy-sec { padding: 70px 0; border-bottom: 1px solid var(--line); }
+        .buy-box { display: grid; grid-template-columns: 200px 1fr; gap: 36px; align-items: center; border: 2px solid var(--text); padding: 28px; background: var(--panel); }
+        .buy-box img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+        .buy-box h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .buy-box p { margin-bottom: 22px; }
+        .buy-box p.eyebrow { margin-bottom: 8px; }
+        .buy-box .btn { align-self: auto; }
+        @media (max-width: 640px) { .buy-box { grid-template-columns: 1fr; } .buy-box img { max-width: 220px; } }
+
+        /* Canciones */
+        .tracks-sec { padding: 80px 0 70px; }
+        .tracks-sec .intro { margin-bottom: 30px; }
+        .tracks { list-style: none; border-top: 1px solid var(--line); }
+        .tracks li { display: grid; grid-template-columns: 70px 1fr; gap: 12px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+        .tracks .n { color: var(--accent); font-weight: 700; letter-spacing: 2px; }
+        .tracks h3 { font-size: clamp(1.1rem, 2.4vw, 1.6rem); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .song-row { display: grid; grid-template-columns: repeat(3, 1fr); border: 2px solid var(--text); background: var(--bg); }
+        .song-card { padding: 28px; border-right: 1px solid var(--line); }
+        .song-card:last-child { border-right: 0; }
+        .song-card .n { color: var(--accent); font-weight: 700; letter-spacing: 2px; }
+        .song-card h3 { font-size: 1.15rem; text-transform: uppercase; letter-spacing: 1px; margin: 6px 0 8px; }
+        @media (max-width: 820px) { .song-row { grid-template-columns: 1fr; } .song-card { border-right: 0; border-bottom: 1px solid var(--line); } .song-card:last-child { border-bottom: 0; } }
+
+        /* Nosotros */
+        .bio { padding: 110px 0; text-align: center; color: #F6F6F6; background: linear-gradient(rgba(66,66,66,0.6), rgba(66,66,66,0.78)), url('images/bio-bg.jpg') center / cover no-repeat; }
+        .bio h2 { font-size: clamp(1.8rem, 4vw, 3rem); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 28px; }
+        .bio p { max-width: 780px; margin: 0 auto 20px; font-size: 1.05rem; color: #F6F6F6; text-shadow: 0 2px 12px rgba(66,66,66,0.6); }
+        .bio strong { color: #F6F6F6; }
+        .band-sec { padding: 70px 0 90px; }
+        .members { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); border-top: 2px solid var(--text); border-left: 2px solid var(--text); margin-bottom: 40px; background: var(--panel); }
+        .member { padding: 28px 22px; border-right: 2px solid var(--text); border-bottom: 2px solid var(--text); }
+        .member b { display: block; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .member span { color: var(--accent); font-size: 0.88rem; font-weight: 700; }
+        .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+        .facts small { display: block; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.72rem; }
+        .facts strong { font-size: 1.05rem; }
+
+        /* Carrusel de fotos (inicio) */
+        .car-sec { padding: 80px 0; }
+        .gal-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 26px; }
+        .gal-head .block-title { margin-bottom: 0; }
+        .car-wrap { position: relative; }
+        .carousel { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 24px 14px; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
+        .carousel a { flex: 0 0 clamp(220px, 28vw, 340px); scroll-snap-align: start; aspect-ratio: 4 / 5; overflow: hidden; background: var(--panel); }
+        .carousel img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s; }
+        .carousel a:hover img { transform: scale(1.05); }
+        .car-btn { position: absolute; top: 45%; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--text); background: var(--bg); color: var(--text); font-size: 1.3rem; cursor: pointer; z-index: 2; }
+        .car-btn:hover { background: var(--accent); border-color: var(--accent); color: #F6F6F6; }
+        .car-prev { left: 10px; } .car-next { right: 10px; }
+
+        /* Suscripción (inicio) */
+        .signup { background: var(--sky); text-align: center; padding: 80px 24px; border-top: 2px solid var(--text); border-bottom: 2px solid var(--text); }
+        .signup h2 { font-size: clamp(2rem, 5vw, 3.4rem); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; }
+        .signup h2 { color: #F6F6F6; }
+        .signup p { color: #F6F6F6; margin-bottom: 28px; }
+        .signup .btn-solid { background: #F6F6F6; border-color: #F6F6F6; color: #424242; }
+        .signup .btn-solid:hover { background: #424242; border-color: #424242; color: #F6F6F6; }
+
+        /* Galería */
+        .photos { padding: 70px 0 90px; }
+        .photos-head { margin-bottom: 30px; }
+        .photos-head .block-title { margin-bottom: 10px; }
+        .back { display: inline-block; margin-bottom: 26px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+        .back:hover { color: var(--accent); }
+        .gallery { columns: 3 320px; column-gap: 16px; }
+        .ph { break-inside: avoid; margin-bottom: 16px; background: var(--panel); }
+        .ph-open { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; overflow: hidden; }
+        .ph-open img { width: 100%; height: auto; display: block; transition: transform .5s; }
+        .ph-open:hover img { transform: scale(1.04); }
+        .lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(66,66,66,0.95); display: none; align-items: center; justify-content: center; padding: 24px; }
+        .lightbox.open { display: flex; }
+        .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .lb-btn { position: absolute; background: none; border: 1px solid rgba(246,246,246,0.4); color: #F6F6F6; width: 46px; height: 46px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; }
+        .lb-btn:hover { background: var(--accent); border-color: var(--accent); }
+        .lb-close { top: 18px; right: 18px; } .lb-prev { left: 18px; top: 50%; } .lb-next { right: 18px; top: 50%; }
+
+        /* Contacto (estilo Turnstile) */
+        .contact-page { max-width: 820px; margin: 0 auto; padding: 70px 24px 100px; }
+        .contact-page h1 { font-size: clamp(2.4rem, 7vw, 4rem); text-transform: uppercase; letter-spacing: 3px; line-height: 1.1; margin-bottom: 36px; }
+        .contact-page h2 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 2px; margin: 36px 0 12px; }
+        .contact-page p { margin-bottom: 14px; }
+        .contact-page strong { color: var(--text); }
+        .contact-page .mails a { display: inline-block; margin-right: 22px; border-bottom: 2px solid var(--accent); font-weight: 700; color: var(--text); }
+        .contact-page .mails a:hover { color: var(--accent); }
+        .cform label { display: block; margin: 20px 0 6px; font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
+        .cform input, .cform textarea { width: 100%; padding: 14px; border: 2px solid var(--text); background: #F6F6F6; color: var(--text); font: inherit; border-radius: 0; }
+        .cform input:focus, .cform textarea:focus { outline: 3px solid var(--sky); }
+        .cform textarea { min-height: 150px; resize: vertical; }
+        .cform .btn { margin-top: 24px; cursor: pointer; font-family: inherit; }
+        .cform .note { font-size: 0.8rem; margin-top: 12px; }
+
+        /* Footer */
+        footer { background: var(--text); color: var(--bg); text-align: center; padding: 50px 24px 36px; }
+        footer .social-links { justify-content: center; margin-bottom: 20px; }
+        footer .social-icon { color: var(--sky); }
+        footer .social-icon:hover { background: var(--sky); color: var(--text); }
+        footer p { color: #F6F6F6; font-size: 0.82rem; margin-bottom: 14px; }
+        .foot-links { display: flex; flex-wrap: wrap; gap: 8px 26px; justify-content: center; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; }
+        .foot-links a:hover { color: var(--sky); }
+
+        /* Playlist de YouTube */
+        .playlist-sec { padding: 80px 0; }
+        .video-frame { position: relative; aspect-ratio: 16 / 9; border: 2px solid var(--text); background: #424242; }
+        .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+        /* Tour */
+        .tour-sec { padding: 10px 0 100px; }
+        .tour-sec .sec-intro { margin-top: 12px; }
+        .tour-box { background: #F6F6F6; border: 2px solid var(--text); padding: 24px; min-height: 240px; }
+    </style>
+</head>
+
+<body>
+
+    <div class="announce"><a href="https://lnkfi.re/theprom" target="_blank" rel="noopener" data-i18n="marquee">THE PROM — YA DISPONIBLE — ESCÚCHALO AHORA</a></div>
+    <div class="topbar">
+        <div class="social-links"><a href="https://open.spotify.com/artist/6iElUMTT4kjZ1Ecfzw07tw" target="_blank" rel="noopener" class="social-icon" title="Spotify" aria-label="Spotify"><i class="fab fa-spotify"></i></a><a href="https://music.apple.com/artist/dumb/1690355837" target="_blank" rel="noopener" class="social-icon" title="Apple Music" aria-label="Apple Music"><i class="fa-brands fa-apple"></i></a><a href="https://www.youtube.com/channel/UCn8q5TUAPstFN68Jxo0_94Q" target="_blank" rel="noopener" class="social-icon" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a><a href="https://www.instagram.com/dumb._.band" target="_blank" rel="noopener" class="social-icon" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="https://www.tiktok.com/@dumb._.band" target="_blank" rel="noopener" class="social-icon" title="TikTok" aria-label="TikTok"><i class="fab fa-tiktok"></i></a><a href="https://x.com/_dumb_band" target="_blank" rel="noopener" class="social-icon" title="X (Twitter)" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a></div>
+        <div class="lang-switch" role="group" aria-label="Language / Idioma">
+            <button type="button" class="lang-btn" data-lang="es" lang="es">ES</button>
+            <button type="button" class="lang-btn" data-lang="en" lang="en">EN</button>
+            <button type="button" class="lang-btn" data-lang="ja" lang="ja">日本語</button>
+            <button type="button" class="lang-btn" data-lang="ko" lang="ko">한국어</button>
+        </div>
+    </div>
+    <header class="site-header"><a href="index.html" class="brand"><img src="images/logo.png" alt="dumb"><span class="visually-hidden">dumb</span></a></header>
+    <nav class="topnav">
+        <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">☰ MENU</button>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html" class="active" data-i18n="nav_home">Inicio</a>
+            <a href="musica.html" data-i18n="nav_music">Música</a>
+            <a href="nosotros.html" data-i18n="nav_about">Nosotros</a>
+            <a href="galeria.html" data-i18n="nav_photos">Galería</a>
+            <a href="tour.html" data-i18n="nav_tour">Tour</a>
+            <a href="club.html" data-i18n="nav_club">Club de fans</a>
+            <a href="contacto.html" data-i18n="nav_contact">Contacto</a>
+        </div>
+    </nav>
+
+    <section class="hero" aria-label="dumb">
+        <div class="hero-cta">
+            <a href="https://lnkfi.re/theprom" target="_blank" rel="noopener" class="btn btn-solid"><span data-i18n="listen">Escuchar The Prom</span> <span>↗</span></a>
+            <a href="galeria.html" class="btn"><span data-i18n="hero_photos">Ver fotos</span> <span>↗</span></a>
+        </div>
+    </section>
+
+    <!-- LANZAMIENTO DESTACADO -->
+    <section id="release" class="split">
+        <div class="split-media"><img src="images/album-the-prom.jpg" alt="Portada del álbum The Prom"></div>
+        <div class="split-text">
+            <p class="eyebrow" data-i18n="out_now">Ya disponible</p>
+            <h2>The Prom</h2>
+            <p class="meta" data-i18n="release_meta">Álbum de Estudio (2026)</p>
+            <p data-i18n="release_desc">Lanzado oficialmente el 11 de julio de 2026, <em>The Prom</em> representa la consolidación artística definitiva de dumb. Esta producción de larga duración reúne 12 cortes musicales (incorporando sus exitosos sencillos previos junto a 9 temas inéditos) conectados bajo un mismo hilo conceptual y madurez compositiva.</p>
+            <a href="https://lnkfi.re/theprom" target="_blank" rel="noopener" class="btn"><span data-i18n="listen">Escuchar The Prom</span> <span>↗</span></a>
+        </div>
+    </section>
+
+    <section class="playlist-sec">
+        <div class="wrap">
+            <div class="gal-head">
+                <h2 class="block-title" data-i18n="playlist_title">Escucha el álbum</h2>
+                <a href="https://www.youtube.com/playlist?list=OLAK5uy_kbYNOZId8DsLhnBnOZQq9KWwt1n_sKAKo" target="_blank" rel="noopener" class="btn"><span data-i18n="yt_open">Abrir en YouTube</span> <span>↗</span></a>
+            </div>
+            <div class="video-frame">
+                <iframe src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_kbYNOZId8DsLhnBnOZQq9KWwt1n_sKAKo" title="The Prom - YouTube playlist" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="car-sec">
+        <div class="wrap gal-head">
+            <h2 class="block-title" data-i18n="photos_title">Galería</h2>
+            <a href="galeria.html" class="btn"><span data-i18n="gallery_more">Ver todas las fotos</span> <span>↗</span></a>
+        </div>
+        <div class="car-wrap">
+            <button type="button" class="car-btn car-prev" aria-label="Previous">‹</button>
+            <div class="carousel" id="carousel"><a href="galeria.html"><img src="images/gallery/dumb-01.jpg" loading="lazy" alt="dumb - foto 01"></a><a href="galeria.html"><img src="images/gallery/dumb-02.jpg" loading="lazy" alt="dumb - foto 02"></a><a href="galeria.html"><img src="images/gallery/dumb-03.jpg" loading="lazy" alt="dumb - foto 03"></a><a href="galeria.html"><img src="images/gallery/dumb-04.jpg" loading="lazy" alt="dumb - foto 04"></a><a href="galeria.html"><img src="images/gallery/dumb-05.jpg" loading="lazy" alt="dumb - foto 05"></a><a href="galeria.html"><img src="images/gallery/dumb-06.jpg" loading="lazy" alt="dumb - foto 06"></a><a href="galeria.html"><img src="images/gallery/dumb-07.jpg" loading="lazy" alt="dumb - foto 07"></a><a href="galeria.html"><img src="images/gallery/dumb-08.jpg" loading="lazy" alt="dumb - foto 08"></a><a href="galeria.html"><img src="images/gallery/dumb-09.jpg" loading="lazy" alt="dumb - foto 09"></a><a href="galeria.html"><img src="images/gallery/dumb-10.jpg" loading="lazy" alt="dumb - foto 10"></a><a href="galeria.html"><img src="images/gallery/dumb-11.jpg" loading="lazy" alt="dumb - foto 11"></a><a href="galeria.html"><img src="images/gallery/dumb-12.jpg" loading="lazy" alt="dumb - foto 12"></a><a href="galeria.html"><img src="images/gallery/dumb-13.jpg" loading="lazy" alt="dumb - foto 13"></a><a href="galeria.html"><img src="images/gallery/dumb-14.jpg" loading="lazy" alt="dumb - foto 14"></a><a href="galeria.html"><img src="images/gallery/dumb-15.jpg" loading="lazy" alt="dumb - foto 15"></a><a href="galeria.html"><img src="images/gallery/dumb-16.jpg" loading="lazy" alt="dumb - foto 16"></a><a href="galeria.html"><img src="images/gallery/dumb-17.jpg" loading="lazy" alt="dumb - foto 17"></a></div>
+            <button type="button" class="car-btn car-next" aria-label="Next">›</button>
+        </div>
+    </section>
+
+    <section class="signup">
+        <h2 data-i18n="signup_title">Mantente al día</h2>
+        <p data-i18n="signup_text">Únete al club de fans y recibe nuestras novedades.</p>
+        <a href="club.html" class="btn btn-solid"><span data-i18n="signup_btn">Unirme al club</span> <span>↗</span></a>
+    </section>
+
+    <footer>
+        <div class="social-links"><a href="https://open.spotify.com/artist/6iElUMTT4kjZ1Ecfzw07tw" target="_blank" rel="noopener" class="social-icon" title="Spotify" aria-label="Spotify"><i class="fab fa-spotify"></i></a><a href="https://music.apple.com/artist/dumb/1690355837" target="_blank" rel="noopener" class="social-icon" title="Apple Music" aria-label="Apple Music"><i class="fa-brands fa-apple"></i></a><a href="https://www.youtube.com/channel/UCn8q5TUAPstFN68Jxo0_94Q" target="_blank" rel="noopener" class="social-icon" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a><a href="https://www.instagram.com/dumb._.band" target="_blank" rel="noopener" class="social-icon" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="https://www.tiktok.com/@dumb._.band" target="_blank" rel="noopener" class="social-icon" title="TikTok" aria-label="TikTok"><i class="fab fa-tiktok"></i></a><a href="https://x.com/_dumb_band" target="_blank" rel="noopener" class="social-icon" title="X (Twitter)" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a></div>
+        <p data-i18n="footer">&copy; 2026 dumb. Todos los derechos reservados.</p>
+        <div class="foot-links">
+            <a href="contacto.html" data-i18n="nav_contact">Contacto</a>
+            <a href="https://dumb-band.bandcamp.com/" target="_blank" rel="noopener">Bandcamp</a>
+            <a href="club.html" data-i18n="nav_club">Club de fans</a>
+        </div>
+    </footer>
+
+    <!-- TRADUCCIONES -->
+    <script>
+        const I18N = {
+            es: {
+                nav_contact: "Contacto",
+                marquee: "THE PROM — YA DISPONIBLE — ESCÚCHALO AHORA",
+                out_now: "Ya disponible",
+                touch: "Hablemos.",
+                touch_sub: "Conciertos, prensa y colaboraciones: escríbenos.",
+                nav_photos: "Galería",
+                photos_title: "Galería",
+                photos_intro: "Momentos de dumb. Haz clic en una foto para verla en grande.",
+                back: "Volver al inicio",
+                bio_title: "Sobre nosotros",
+                bio_1: "Formada originalmente como proyecto en 2020 y establecida oficialmente en 2023, la banda ecuatoriana <strong>dumb</strong> (estilizada en minúsculas) transforma las vivencias personales, contradicciones y la nostalgia juvenil en un viaje sonoro fresco y auténtico.",
+                bio_2: "Con un sonido basado firmemente en la energía del rock alternativo, el quinteto guayaquileño se caracteriza por entrelazar de forma magnética arreglos de pop punk, pop rock y texturas de pop melancólico, acompañados de composiciones interpretadas íntegramente en inglés que apuntan a conectar con audiencias tanto locales como internacionales.",
+                release_meta: "Álbum de Estudio (2026)",
+                release_desc: "Lanzado oficialmente el 11 de julio de 2026, <em>The Prom</em> representa la consolidación artística definitiva de dumb. Esta producción de larga duración reúne 12 cortes musicales (incorporando sus exitosos sencillos previos junto a 9 temas inéditos) conectados bajo un mismo hilo conceptual y madurez compositiva.",
+                listen: "Escuchar The Prom",
+                tracks_title: "Canciones destacadas",
+                tracks_intro: "Para empezar a escuchar a dumb:",
+                track_1: "La propuesta más madura y con mayor despliegue visual de la banda, impulsada por una potente base pop rock y la gran fuerza vocal de Doménica.",
+                track_2: "El lado más experimental del grupo, logrando una singular fusión que integra la cadencia limpia del bossa nova bajo dinámicas de rock alternativo.",
+                track_3: "El himno inicial que arrancó su carrera discográfica superando los 20,000 streams en plataformas digitales; un track de pop punk melancólico de alto impacto emocional.",
+                origin: "Origen",
+                origin_val: "Guayaquil, Ecuador",
+                language: "Idioma",
+                language_val: "Inglés",
+                shows: "Shows Recientes",
+                members_title: "La banda",
+                role_1: "Voz &amp; Bajo",
+                role_2: "Batería",
+                role_3: "Guitarra Líder",
+                role_4: "Guitarra Rítmica",
+                role_5: "Teclados &amp; Prod.",
+                contact_title: "Contacto",
+                footer: "&copy; 2026 dumb. Todos los derechos reservados.",
+                nav_home: "Inicio",
+                nav_music: "Música",
+                nav_about: "Nosotros",
+                hero_photos: "Ver fotos",
+                music_title: "Música",
+                gallery_more: "Ver todas las fotos",
+                nav_club: "Club de fans",
+                buy_title: "Compra digital",
+                buy_text: "Lleva The Prom contigo: compra el álbum en formato digital en Bandcamp y apoya directamente a la banda.",
+                buy_btn: "Comprar en Bandcamp",
+                help_title: "Estamos aquí para ayudarte",
+                help_text: "¿Quieres contratar a dumb, entrevistarnos o colaborar? Escríbenos con los detalles de tu propuesta (fecha, lugar y tipo de evento) y te responderemos lo antes posible.",
+                booking_label: "Booking y prensa:",
+                booking_text: "También puedes escribirnos directamente a estos correos.",
+                form_title: "Formulario de contacto",
+                f_name: "Nombre",
+                f_email: "Correo electrónico *",
+                f_phone: "Teléfono",
+                f_msg: "Comentario",
+                f_send: "Enviar",
+                f_note: "Se abrirá tu app de correo con el mensaje listo para enviar.",
+                signup_title: "Mantente al día",
+                signup_text: "Únete al club de fans y recibe nuestras novedades.",
+                signup_btn: "Unirme al club",
+                nav_tour: "Tour",
+                tour_intro: "Próximos shows y fechas de dumb.",
+                playlist_title: "Escucha el álbum",
+                yt_open: "Abrir en YouTube"
+            },
+            en: {
+                nav_contact: "Contact",
+                marquee: "THE PROM — OUT NOW — LISTEN NOW",
+                out_now: "Out now",
+                touch: "Get in touch.",
+                touch_sub: "Shows, press and collaborations: write to us.",
+                nav_photos: "Gallery",
+                photos_title: "Gallery",
+                photos_intro: "Moments from dumb. Click a photo to view it larger.",
+                back: "Back to home",
+                bio_title: "About us",
+                bio_1: "Formed as a project in 2020 and officially established in 2023, the Ecuadorian band <strong>dumb</strong> (stylized in lowercase) turns personal experiences, contradictions and youthful nostalgia into a fresh, authentic sonic journey.",
+                bio_2: "Built firmly on the energy of alternative rock, the Guayaquil-based five-piece magnetically weaves together pop punk, pop rock and melancholic pop textures, with songs performed entirely in English that aim to connect with both local and international audiences.",
+                release_meta: "Studio Album (2026)",
+                release_desc: "Officially released on July 11, 2026, <em>The Prom</em> represents dumb's definitive artistic consolidation. This full-length record gathers 12 tracks (combining their successful earlier singles with 9 unreleased songs) tied together by a single conceptual thread and compositional maturity.",
+                listen: "Listen to The Prom",
+                tracks_title: "Featured songs",
+                tracks_intro: "Start listening to dumb here:",
+                track_1: "The band's most mature and visually ambitious proposal, driven by a powerful pop rock foundation and Doménica's great vocal strength.",
+                track_2: "The group's most experimental side, achieving a unique fusion that blends the clean cadence of bossa nova with alternative rock dynamics.",
+                track_3: "The opening anthem that launched their recording career, surpassing 20,000 streams on digital platforms; a melancholic pop punk track with high emotional impact.",
+                origin: "Origin",
+                origin_val: "Guayaquil, Ecuador",
+                language: "Language",
+                language_val: "English",
+                shows: "Recent Shows",
+                members_title: "The band",
+                role_1: "Vocals &amp; Bass",
+                role_2: "Drums",
+                role_3: "Lead Guitar",
+                role_4: "Rhythm Guitar",
+                role_5: "Keys &amp; Production",
+                contact_title: "Contact",
+                footer: "&copy; 2026 dumb. All rights reserved.",
+                nav_home: "Home",
+                nav_music: "Music",
+                nav_about: "About",
+                hero_photos: "See photos",
+                music_title: "Music",
+                gallery_more: "See all photos",
+                nav_club: "Fan club",
+                buy_title: "Digital purchase",
+                buy_text: "Take The Prom with you: buy the album as a digital download on Bandcamp and support the band directly.",
+                buy_btn: "Buy on Bandcamp",
+                help_title: "We're here to help",
+                help_text: "Want to book dumb, interview us or collaborate? Write to us with the details of your proposal (date, venue and type of event) and we'll get back to you as soon as possible.",
+                booking_label: "Booking & press:",
+                booking_text: "You can also write to us directly at these emails.",
+                form_title: "Contact form",
+                f_name: "Name",
+                f_email: "Email *",
+                f_phone: "Phone number",
+                f_msg: "Comment",
+                f_send: "Send",
+                f_note: "Your email app will open with the message ready to send.",
+                signup_title: "Stay updated",
+                signup_text: "Join the fan club and get our latest news.",
+                signup_btn: "Join the club",
+                nav_tour: "Tour",
+                tour_intro: "Upcoming dumb shows and dates.",
+                playlist_title: "Listen to the album",
+                yt_open: "Open on YouTube"
+            },
+            ja: {
+                nav_contact: "お問い合わせ",
+                marquee: "THE PROM — 好評発売中 — 今すぐ聴く",
+                out_now: "好評発売中",
+                touch: "お気軽にご連絡ください。",
+                touch_sub: "ライブ、取材、コラボレーションのご相談はこちらへ。",
+                nav_photos: "ギャラリー",
+                photos_title: "ギャラリー",
+                photos_intro: "dumbの瞬間。写真をクリックすると拡大表示されます。",
+                back: "ホームに戻る",
+                bio_title: "dumbについて",
+                bio_1: "2020年にプロジェクトとして始まり、2023年に正式に結成されたエクアドルのバンド<strong>dumb</strong>(小文字表記)は、個人的な経験や矛盾、若き日のノスタルジアを、新鮮で本物のサウンドの旅へと昇華させています。",
+                bio_2: "オルタナティブ・ロックのエネルギーを軸に、グアヤキル出身の5人組は、ポップパンク、ポップロック、そして憂いを帯びたポップの質感を魅力的に織り交ぜます。すべて英語で歌われる楽曲は、国内外のリスナーとのつながりを目指しています。",
+                release_meta: "スタジオ・アルバム(2026年)",
+                release_desc: "2026年7月11日に正式リリースされた<em>The Prom</em>は、dumbの芸術的な集大成と言える作品です。このフルアルバムには全12曲を収録し、これまでの好評シングルに加えて9曲の未発表曲を含め、ひとつのコンセプトと成熟したソングライティングで貫かれています。",
+                listen: "The Promを聴く",
+                tracks_title: "おすすめの曲",
+                tracks_intro: "まずはこちらからdumbを聴いてみてください:",
+                track_1: "バンドの中でも最も成熟し、映像面でも力の入った作品。力強いポップロックのサウンドと、ドメニカの圧倒的なボーカルが牽引します。",
+                track_2: "グループの最も実験的な一面。ボサノヴァの澄んだリズムをオルタナティブ・ロックのダイナミクスに溶け込ませた、ユニークなフュージョンです。",
+                track_3: "彼らのレコーディング・キャリアの幕開けとなったアンセム。デジタルプラットフォームで20,000回以上のストリーミングを突破した、感情に強く訴えるメランコリックなポップパンク曲です。",
+                origin: "出身地",
+                origin_val: "エクアドル、グアヤキル",
+                language: "言語",
+                language_val: "英語",
+                shows: "最近のライブ",
+                members_title: "メンバー",
+                role_1: "ボーカル &amp; ベース",
+                role_2: "ドラム",
+                role_3: "リードギター",
+                role_4: "リズムギター",
+                role_5: "キーボード &amp; プロデュース",
+                contact_title: "お問い合わせ",
+                footer: "&copy; 2026 dumb. All rights reserved.",
+                nav_home: "ホーム",
+                nav_music: "音楽",
+                nav_about: "概要",
+                hero_photos: "写真を見る",
+                music_title: "音楽",
+                gallery_more: "すべての写真を見る",
+                nav_club: "ファンクラブ",
+                buy_title: "デジタル購入",
+                buy_text: "The Promをあなたの手元に。Bandcampでデジタル版を購入して、バンドを直接応援してください。",
+                buy_btn: "Bandcampで購入",
+                help_title: "お気軽にご相談ください",
+                help_text: "dumbの出演依頼、取材、コラボレーションのご相談は、日程・会場・イベントの種類などの詳細を添えてご連絡ください。できるだけ早くご返信します。",
+                booking_label: "ブッキング・取材:",
+                booking_text: "下記のメールアドレスへ直接ご連絡いただくこともできます。",
+                form_title: "お問い合わせフォーム",
+                f_name: "お名前",
+                f_email: "メールアドレス *",
+                f_phone: "電話番号",
+                f_msg: "メッセージ",
+                f_send: "送信",
+                f_note: "メールアプリが開き、送信できる状態でメッセージが表示されます。",
+                signup_title: "最新情報を受け取る",
+                signup_text: "ファンクラブに参加して最新情報を受け取りましょう。",
+                signup_btn: "参加する",
+                nav_tour: "ツアー",
+                tour_intro: "dumbの今後のライブ日程です。",
+                playlist_title: "アルバムを聴く",
+                yt_open: "YouTubeで開く"
+            },
+            ko: {
+                nav_contact: "문의",
+                marquee: "THE PROM — 지금 발매 중 — 지금 들어보세요",
+                out_now: "지금 발매 중",
+                touch: "연락해 주세요.",
+                touch_sub: "공연, 프레스, 협업 문의는 여기로.",
+                nav_photos: "갤러리",
+                photos_title: "갤러리",
+                photos_intro: "dumb의 순간들. 사진을 클릭하면 크게 볼 수 있습니다.",
+                back: "홈으로 돌아가기",
+                bio_title: "dumb 소개",
+                bio_1: "2020년 프로젝트로 시작해 2023년 공식 결성된 에콰도르 밴드 <strong>dumb</strong>(소문자 표기)은 개인적인 경험과 모순, 젊은 날의 향수를 신선하고 진솔한 사운드의 여정으로 풀어냅니다.",
+                bio_2: "얼터너티브 록의 에너지를 단단한 뼈대로, 과야킬 출신의 5인조는 팝 펑크, 팝 록, 그리고 우울한 감성의 팝 질감을 매력적으로 엮어냅니다. 모든 곡은 영어로 노래하며, 현지와 해외 청중 모두와 소통하는 것을 목표로 합니다.",
+                release_meta: "정규 앨범 (2026)",
+                release_desc: "2026년 7월 11일 공식 발매된 <em>The Prom</em>은 dumb의 음악적 완성을 보여주는 작품입니다. 이 정규 앨범은 총 12곡으로, 기존의 인기 싱글과 9곡의 미발표 신곡을 하나의 콘셉트와 성숙한 작곡으로 엮었습니다.",
+                listen: "The Prom 듣기",
+                tracks_title: "추천 곡",
+                tracks_intro: "dumb을 들어보는 첫걸음:",
+                track_1: "밴드의 가장 성숙하고 영상미가 돋보이는 곡으로, 강렬한 팝 록 사운드와 도메니카의 뛰어난 보컬이 이끕니다.",
+                track_2: "그룹의 가장 실험적인 면모로, 보사노바의 깔끔한 리듬을 얼터너티브 록의 다이내믹과 결합한 독특한 융합을 보여줍니다.",
+                track_3: "밴드의 음반 커리어를 연 첫 번째 앤섬으로, 디지털 플랫폼에서 2만 회 이상 스트리밍을 돌파했습니다. 감정적 울림이 큰 우울한 팝 펑크 곡입니다.",
+                origin: "출신",
+                origin_val: "에콰도르 과야킬",
+                language: "언어",
+                language_val: "영어",
+                shows: "최근 공연",
+                members_title: "멤버",
+                role_1: "보컬 &amp; 베이스",
+                role_2: "드럼",
+                role_3: "리드 기타",
+                role_4: "리듬 기타",
+                role_5: "키보드 &amp; 프로듀싱",
+                contact_title: "문의",
+                footer: "&copy; 2026 dumb. All rights reserved.",
+                nav_home: "홈",
+                nav_music: "음악",
+                nav_about: "소개",
+                hero_photos: "사진 보기",
+                music_title: "음악",
+                gallery_more: "모든 사진 보기",
+                nav_club: "팬클럽",
+                buy_title: "디지털 구매",
+                buy_text: "The Prom을 소장하세요. Bandcamp에서 디지털 음원을 구매하고 밴드를 직접 응원해 주세요.",
+                buy_btn: "Bandcamp에서 구매",
+                help_title: "도와드리겠습니다",
+                help_text: "dumb의 공연 섭외, 인터뷰, 협업을 원하시나요? 날짜, 장소, 행사 유형 등 제안 내용을 보내 주시면 최대한 빨리 답변드리겠습니다.",
+                booking_label: "부킹 및 프레스:",
+                booking_text: "아래 이메일로 직접 연락하셔도 됩니다.",
+                form_title: "문의 양식",
+                f_name: "이름",
+                f_email: "이메일 *",
+                f_phone: "전화번호",
+                f_msg: "메시지",
+                f_send: "보내기",
+                f_note: "메일 앱이 열리고 보낼 메시지가 준비됩니다.",
+                signup_title: "소식 받기",
+                signup_text: "팬클럽에 가입하고 최신 소식을 받아보세요.",
+                signup_btn: "가입하기",
+                nav_tour: "투어",
+                tour_intro: "dumb의 예정된 공연 일정입니다.",
+                playlist_title: "앨범 듣기",
+                yt_open: "YouTube에서 열기"
+            }
+        };
+
+        function setLang(lang) {
+            if (!I18N[lang]) lang = 'es';
+            const dict = I18N[lang];
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(function (el) {
+                const val = dict[el.getAttribute('data-i18n')];
+                if (val !== undefined) el.innerHTML = val;
+            });
+            document.querySelectorAll('.lang-btn').forEach(function (btn) {
+                const active = btn.getAttribute('data-lang') === lang;
+                btn.classList.toggle('active', active);
+                btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+            try { localStorage.setItem('dumb-lang', lang); } catch (e) {}
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () { setLang(btn.getAttribute('data-lang')); });
+        });
+
+        (function init() {
+            let lang = '';
+            try { lang = localStorage.getItem('dumb-lang') || ''; } catch (e) {}
+            if (!I18N[lang]) {
+                const nav = (navigator.language || 'es').slice(0, 2).toLowerCase();
+                lang = I18N[nav] ? nav : 'es';
+            }
+            setLang(lang);
+        })();
+    </script>
+    <script>
+        (function () {
+            var b = document.querySelector('.nav-toggle'), n = document.getElementById('nav-links');
+            b.addEventListener('click', function () { var o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o ? 'true' : 'false'); });
+        })();
+    </script>
+    <script>
+        (function () {
+            var c = document.getElementById('carousel');
+            document.querySelector('.car-prev').addEventListener('click', function () { c.scrollBy({ left: -c.clientWidth * 0.8, behavior: 'smooth' }); });
+            document.querySelector('.car-next').addEventListener('click', function () { c.scrollBy({ left: c.clientWidth * 0.8, behavior: 'smooth' }); });
+        })();
+    </script>
+
+</body>
+</html>
